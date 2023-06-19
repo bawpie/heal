@@ -3,7 +3,7 @@
     "ifid": "3BF8DCE9-5DB1-4D7E-8C55-3A4259A1E304",
     "format": "SugarCube",
     "format-version": "2.36.1",
-    "start": "00002_Healer_Trial",
+    "start": "0002.000_Healer_Trial",
     "tag-colors": {},
     "zoom": 1
 }
@@ -18,32 +18,32 @@ postrender["Link Tracking"] = function (content, taskName) {
   });
 };
 
-:: 00002_Healer_Trial {"position":"400,300","sizing":"100,100"}
-Those individuals happened to be two local healers.  After fourteen summers had passed on your youth, you were approached by both - Joneth, who worked in the Lord's keep, and Faye, who tended to the healing needs of the village.  Both of them had spotted a talent within you and were keen to nurture it; apparently they felt you were bound for greater things than merely becoming a huntress or a farm hand.  It was a great honour, in truth, for you and your family.  No one in your family had ever served as a healer - such an occupation was considered as vital to any local community.  You served a season with each of them at that age, at the end of which you were expected to choose who you would complete your apprenticeship under.
-
-[[Continue|0002.001_Faye]]
-
-:: 0001.001 {"position":"400,175","sizing":"100,100"}
-You were quite a shy person, and instead spent most of your days reading, or walking in the forests that surrounded your home.  Perhaps this was when you truly began to realise that you were interested in healing as an occupation - in particular, you had a great interest in the art of Nateura - healing by natural means.  By fourteen, you could identify and name all manner of plants and herbs that grew around your home, and it was this talent that caught the attention of two individuals... 
-
-[[Continue|00002_Healer_Trial]]
-
-:: 0001.002 {"position":"525,175","sizing":"100,100"}
-Like your father, all three of your brothers were to become hunters.  You loved to roam the forests with them as you grew up, and they taught you to hunt.  You had little trouble laying a snare or arming a bow, and your aim wasn't too bad either - but you hated the prize at the end of these endeavours - the death of a creature, whether it be a rabbit, deer or bird.  As you grew older, you were more likely to try and heal a creature than to harm it, much to the exasperation of your hunter siblings.   More often than not, your attempts were met with success.  It was this talent that caught the attention of two individuals... 
-
-[[Continue|00002_Healer_Trial]]
-
-:: 0001.003 {"position":"275,175","sizing":"100,100"}
-Although you'd hesitate to say your upbringing was sheltered - you sometimes travelled with your mother and father to visit relatives outside of Stanley - you were always curious for more information about what lay outside the borders of your quaint little village.  You'd pester the new intake of labourers on the two farms incessantly, and were always quick to greet any new faces passing through - but always with the intention of learning more.  You were personable enough, and mainly folk were happy to answer your queries.  Consequently, you learnt much - most in fact from the odd travellers who were unfortunate enough to end up in the local healer's - whether because of illness or injury, but it was this manner with people which caught the attention of two individuals... 
-
-[[Continue|00002_Healer_Trial]]
-
-:: 0001_Introduction {"position":"400,50","sizing":"100,100"}
+:: 0001.000_Introduction {"position":"400,50","sizing":"100,100"}
 Stanley.  The small mountain village where you grew up.  The place where you were raised by your parents along with your three older brothers, Albin, Piotr and Janek.  It was a pleasant place to grow up - a modest village with only a handful of families, most of whom make their living through hunting or farming.  It had two large farm holds, and each year they'd bring in new faces to the village as temporary labourers to help gather the harvests.  Being located on a busy trade route between two larger towns meant that there were nearly always people passing through.  Growing up you...
 
 [[Kept mainly to yourself|0001.001][$intellect =+ 4]]
 [[Spent most of your time with your brothers|0001.002][$social =+ 2;$combat =+2]]
 [[Spent most of your time querying the labourers and travellers about the outside world...|0001.003][$social =+ 4;$intellect =+ 2]]
+
+:: 0001.001 {"position":"400,175","sizing":"100,100"}
+You were quite a shy person, and instead spent most of your days reading, or walking in the forests that surrounded your home.  Perhaps this was when you truly began to realise that you were interested in healing as an occupation - in particular, you had a great interest in the art of Nateura - healing by natural means.  By fourteen, you could identify and name all manner of plants and herbs that grew around your home, and it was this talent that caught the attention of two individuals... 
+
+[[Continue|0002.000_Healer_Trial]]
+
+:: 0001.002 {"position":"525,175","sizing":"100,100"}
+Like your father, all three of your brothers were to become hunters.  You loved to roam the forests with them as you grew up, and they taught you to hunt.  You had little trouble laying a snare or arming a bow, and your aim wasn't too bad either - but you hated the prize at the end of these endeavours - the death of a creature, whether it be a rabbit, deer or bird.  As you grew older, you were more likely to try and heal a creature than to harm it, much to the exasperation of your hunter siblings.   More often than not, your attempts were met with success.  It was this talent that caught the attention of two individuals... 
+
+[[Continue|0002.000_Healer_Trial]]
+
+:: 0001.003 {"position":"275,175","sizing":"100,100"}
+Although you'd hesitate to say your upbringing was sheltered - you sometimes travelled with your mother and father to visit relatives outside of Stanley - you were always curious for more information about what lay outside the borders of your quaint little village.  You'd pester the new intake of labourers on the two farms incessantly, and were always quick to greet any new faces passing through - but always with the intention of learning more.  You were personable enough, and mainly folk were happy to answer your queries.  Consequently, you learnt much - most in fact from the odd travellers who were unfortunate enough to end up in the local healer's - whether because of illness or injury, but it was this manner with people which caught the attention of two individuals... 
+
+[[Continue|0002.000_Healer_Trial]]
+
+:: 0002.000_Healer_Trial {"position":"400,300","sizing":"100,100"}
+Those individuals happened to be two local healers.  After fourteen summers had passed on your youth, you were approached by both - Joneth, who worked in the Lord's keep, and Faye, who tended to the healing needs of the village.  Both of them had spotted a talent within you and were keen to nurture it; apparently they felt you were bound for greater things than merely becoming a huntress or a farm hand.  It was a great honour, in truth, for you and your family.  No one in your family had ever served as a healer - such an occupation was considered as vital to any local community.  You served a season with each of them at that age, at the end of which you were expected to choose who you would complete your apprenticeship under.
+
+[[Continue|0002.001_Faye]]
 
 :: 0002.001_Faye {"position":"400,425","sizing":"100,100"}
 Faye was a kind and understanding mentor.  She was calm, measured and rarely had a cross word for anyone.  You knew her well from your upbringing in the village, in fact, it was she whom had encouraged you to follow a path in healing to begin with.  You enjoyed the time spent under her tutelage,and when it came to an end, you felt that you had learnt much about caring for the needs of the villagers - even if they weren't always the most exciting or interesting cases.  It was clear that Faye was very knowledgeable in the art of Nateura healing  - in other words, the method of diagnosing illnesses and treating them with appropriate natural methods.  However, something else was clear - Faye charged her clients little for her treatments, and it was obvious that if you were to study under her guidance, then you would receive only a meagre allowance from her.
