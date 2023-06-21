@@ -1,357 +1,707 @@
 :: StoryData
 {
-    "ifid": "3BF8DCE9-5DB1-4D7E-8C55-3A4259A1E304",
+    "ifid": "D2E6DAAA-3CD7-4C96-A2D2-0828D3794FFC",
     "format": "SugarCube",
     "format-version": "2.36.1",
-    "start": "0002.000_Healer_Trial",
-    "tag-colors": {},
+    "start": "0001.0002.00_training_choice",
+    "tag-colors": {
+        "widget": "orange"
+    },
     "zoom": 1
 }
 
 :: StoryTitle
-Heal
+Heal Prologue
 
 :: Twine_UserScript [script]
-postrender["Link Tracking"] = function (content, taskName) {
-  $(content).find("a.link-internal").on("click", function() {
-    State.variables["latestLink"] = $(this).text();
-  });
+//linkHistory - start
+
+/*Note: <<set $linkHistory to []>> must be added to storyinit passage #
+Below should be added to a specific widgets passage (tagged widget)
+<<widget "last_choice">>\
+<<done>><<replace "#choice">>\
+<<print $linkHistory[$linkHistory.length-1]>>
+<</replace>><</done>><span id="choice"></span>\
+<</widget>>\
+call information via <<last_choice>>
+*/
+
+postrender['link-tracker'] = function (content) {
+	$(content).find('.link-internal')
+		.on('click.link-tracker', function () {
+			State.variables['linkHistory'].push($(this).text());
+		});
 };
+// linkHistory - end 
 
-:: 0001.000_Introduction {"position":"400,50","sizing":"100,100"}
-Stanley.  The small mountain village where you grew up.  The place where you were raised by your parents along with your three older brothers, Albin, Piotr and Janek.  It was a pleasant place to grow up - a modest village with only a handful of families, most of whom make their living through hunting or farming.  It had two large farm holds, and each year they'd bring in new faces to the village as temporary labourers to help gather the harvests.  Being located on a busy trade route between two larger towns meant that there were nearly always people passing through.  Growing up you...
+// Automatically loads the autosave
+Config.saves.autoload = true;
 
-[[Kept mainly to yourself|0001.001][$intellect =+ 4]]
-[[Spent most of your time with your brothers|0001.002][$social =+ 2;$combat =+2]]
-[[Spent most of your time querying the labourers and travellers about the outside world...|0001.003][$social =+ 4;$intellect =+ 2]]
+// Autosaves every passage
+Config.saves.autosave = true;
 
-:: 0001.001 {"position":"400,175","sizing":"100,100"}
-You were quite a shy person, and instead spent most of your days reading, or walking in the forests that surrounded your home.  Perhaps this was when you truly began to realise that you were interested in healing as an occupation - in particular, you had a great interest in the art of Nateura - healing by natural means.  By fourteen, you could identify and name all manner of plants and herbs that grew around your home, and it was this talent that caught the attention of two individuals... 
+:: 0001.0001.00_start {"position":"200,0","sizing":"100,100"}
+<<if ndef $PassageNo>><<set $PassageNo = 1>><</if>><<switch $PassageNo>><<case 1>>
+''Heal''
 
-[[Continue|0002.000_Healer_Trial]]
-
-:: 0001.002 {"position":"525,175","sizing":"100,100"}
-Like your father, all three of your brothers were to become hunters.  You loved to roam the forests with them as you grew up, and they taught you to hunt.  You had little trouble laying a snare or arming a bow, and your aim wasn't too bad either - but you hated the prize at the end of these endeavours - the death of a creature, whether it be a rabbit, deer or bird.  As you grew older, you were more likely to try and heal a creature than to harm it, much to the exasperation of your hunter siblings.   More often than not, your attempts were met with success.  It was this talent that caught the attention of two individuals... 
-
-[[Continue|0002.000_Healer_Trial]]
-
-:: 0001.003 {"position":"275,175","sizing":"100,100"}
-Although you'd hesitate to say your upbringing was sheltered - you sometimes travelled with your mother and father to visit relatives outside of Stanley - you were always curious for more information about what lay outside the borders of your quaint little village.  You'd pester the new intake of labourers on the two farms incessantly, and were always quick to greet any new faces passing through - but always with the intention of learning more.  You were personable enough, and mainly folk were happy to answer your queries.  Consequently, you learnt much - most in fact from the odd travellers who were unfortunate enough to end up in the local healer's - whether because of illness or injury, but it was this manner with people which caught the attention of two individuals... 
-
-[[Continue|0002.000_Healer_Trial]]
-
-:: 0002.000_Healer_Trial {"position":"400,300","sizing":"100,100"}
-Those individuals happened to be two local healers.  After fourteen summers had passed on your youth, you were approached by both - Joneth, who worked in the Lord's keep, and Faye, who tended to the healing needs of the village.  Both of them had spotted a talent within you and were keen to nurture it; apparently they felt you were bound for greater things than merely becoming a huntress or a farm hand.  It was a great honour, in truth, for you and your family.  No one in your family had ever served as a healer - such an occupation was considered as vital to any local community.  You served a season with each of them at that age, at the end of which you were expected to choose who you would complete your apprenticeship under.
-
-[[Continue|0002.001_Faye]]
-
-:: 0002.001_Faye {"position":"400,425","sizing":"100,100"}
-Faye was a kind and understanding mentor.  She was calm, measured and rarely had a cross word for anyone.  You knew her well from your upbringing in the village, in fact, it was she whom had encouraged you to follow a path in healing to begin with.  You enjoyed the time spent under her tutelage,and when it came to an end, you felt that you had learnt much about caring for the needs of the villagers - even if they weren't always the most exciting or interesting cases.  It was clear that Faye was very knowledgeable in the art of Nateura healing  - in other words, the method of diagnosing illnesses and treating them with appropriate natural methods.  However, something else was clear - Faye charged her clients little for her treatments, and it was obvious that if you were to study under her guidance, then you would receive only a meagre allowance from her.
-
-[[Continue|0002.002_Joneth]]
-
-:: 0002.002_Joneth {"position":"400,550","sizing":"100,100"}
-After serving for a season with Faye, you went to live in the healer's quarters at the local lord's keep.  It was here that Joneth took you under his wing.  Your time with Joneth was very different to the time spent with Faye - healing at the keep was altogether less personal and treatments and remedies were dealt out at a far faster pace.  Joneth was not an unkind man, but he was a demanding task master who had little patience for uncertainty.  After a season had passed, you felt a great deal more accomplished than when you had begun.  If you wished to train particularly in the art of Crux healing - that is, the dressing of wounds and the skills of setting bones and stitching of flesh, then studying under Joneth would have been a wise decision.  Additionally, as the Lord paid Joneth a yearly salary for his work, you could be also assured of the same privilege, providing you were competent enough.
-
-After spending time in the employ of both healers, careful consideration led you to choose to practice under...
-
-[[...the village healer.|0002.003_village]]
-
-[[...the keep healer.|0002.004_keep]]
-
-:: 0002.003_village {"position":"300,675","sizing":"100,100"}
-<<set $weakness  = "crux">>\
-<<set $wealth to 150>>\
-<<set $background = "village">>\
-<<set $random = random(1,3)>>\
-\
-It was perhaps the safer option.  \
-<<if $social < 2>>\
-Your family were hardly surprised that you chose to stay in the village, such was your shy nature, but working for Faye did help to bring you out of your shell somewhat.
- <<set $social =+ 1>><</if>>
-Faye was as kind and patient a mentor as she had been during your trial and the slow but steady pace of village life ensured that you were given time to refine and practice your craft without any undue pressures.  Of course, you still treated your fair share of grisly injuries - mostly hunting related - gorings, broken bones, the odd animal bite, but truthfully the bulk of your work comprised of doling out soothing tonics for all manner of trivial ailments, and assisting in the occasional child birth.
-<<if $random == 3>>
-<<set $specialization = "nateura">>\
-During your studies, you found you did not have a natural aptitude for Daia healing.  Although this was quite a blow Faye explained to you that Daia healing, whilst extremely useful, was also considerably dangerous for the healer who practises it - to the point that it is outlawed in many lands.  Perhaps it's just as well your aptitude was lacking, for it spurred you on to redouble your efforts in your training, increasing your knowledge in Nateura healing considerably.
-<<else>>
-<<set $daiahealing = "yes">>\
- <<set $daia =+ 50>>\
-During your studies, you found you had a natural aptitude for Daia healing.  This is an exceptionally tricky practice, and is in fact outlawed in some lands as it is percieved to be unnatural.  Daia healing has earned a particularly onerous reputation due, in part, to the fact that it can be extremely damaging to the healer who performs it.  This is because they must channel their own reserves of an energy known as 'Daia' which is finite.  These reserves can be replenished by rest, the practice of meditation and the imbibing of potions, but it is generally accepted that Daia healing is dangerous and should only be used when there is no other alternative.  Nonetheless, Daia healers are rare and thusly valuable.
-<<if $intellect >= 4>>
-<<set $specialization = "nateura">>\
-Due to your already impressive knowledge in Nateura methods, you were able to specialize in both Daia and Nateura healing - an impressive feat for any healer, particularly at your tender age.
-<<else>>\
-You split your study between Daia healing and Nateura, meaning you specialized in neither.  It was a small price to pay	for such an incredible gift. 
-<</if>><</if>>
-Having your family close by during your apprenticeship was somewhat comforting, and you had the additional satisfaction of observing the results of your work first hand.  Your standing with many villagers changed though; some became more distant - perhaps that is the way when one becomes privy to one's every complaint - but in the main, you felt that you became a respected and valued member of the community. 
-[[Continue|0003.001_prologue]]
-
-:: 0002.004_keep {"position":"500,675","sizing":"100,100"}
-<<set $weakness  = "nateura">>\
-<<set $wealth to 300>>\
-<<set $background = "keep">>\
-<<set $random = random(1,3)>>\
-\
-It was perhaps the more ambitious option.  \
-<<if $social >= 2>>\
-But your family wasn't really surprised.  You'd always been fairly outgoing, so your decision to move away from everything you were familiar with didn't cause a shock.  Still, your family and friends were certainly sad to see you leave, even if you were only a few miles away.
-<<else>>
-You'd always been the type to keep to yourself, so your family was a touch surprised by your decision, but proud of you nonetheless.  Moving to the keep certainly forced you to emerge from your shell.
- <<set $social =+ 2>><</if>>
-The work at the keep was a good deal more complicated than anything you'd encountered during your season with Faye.  Joneth had a great deal of patients, from lowly stable hands to the Lord of the keep himself.  The Lord particularly liked to host tournaments frequently, which meant that you often had nasty battle wounds to deal with - as Joneth liked to often quip - 'nature can never deal more damage to man than another man can.'  After removing your fair share of arrow shafts and joust spelks from tournament competitors, as well as stitching up numerous sword and axe wounds, you found it hard to disagree.  Joneth also had a long list of long term patients who had been crippled on campaign with the Lord who had no families to look after them.  They were not numerous in figure, but they required regular treatments just to be able to function. It was difficult work but rewarding - many had tales to tell of their times as soldiers, and you enjoyed listening to them.
-<<if $random == 3>>
-<<set $specialization = "crux">>\
-During your studies, you found you did not have a natural aptitude for Daia healing.  Although this was quite a blow, Joneth explained to you that Daia healing, whilst extremely useful, was also considerably dangerous for the healer who practises it - to the point that it is outlawed in many lands.  Perhaps it's just as well your aptitude was lacking, for it spurred you on to redouble your efforts in your training, increasing your knowledge in Crux healing considerably.
-<<else>>
-<<set $daiahealing = "yes">>\
- <<set $daia =+ 50>>\
-During your studies, you found you had a natural aptitude for Daia healing.  This is an exceptionally tricky practice, and is in fact outlawed in some lands as it is percieved to be unnatural.  Daia healing has earned a particularly onerous reputation due, in part, to the fact that it can be extremely damaging to the healer who performs it.  This is because they must channel their own reserves of an energy known as 'Daia' which is finite.  These reserves can be replenished by rest, the practice of meditation and the imbibing of potions, but it is generally accepted that Daia healing is dangerous and should only be used when there is no other alternative.  Nonetheless, Daia healers are rare and thusly valuable.
-<<if $intellect >= 4>>
-<<set $specialization = "crux">>\
-Due to your increased intellect, honed as a youth, you were able to specialize in both Daia and Crux healing - an impressive feat for any healer, particularly at your tender age.
-<<else>>\
-You split your study between Daia healing and Crux, meaning you specialized in neither.  It was a small price to pay for such an incredible gift. 
-<</if>><</if>>
-Life at the keep was a big change from what you were used to.  The keep was mainly populated by soldiers, training or recuperating in-between campaigns.  Whilst you were there, you were fortunate enough to attend a great feast - it was unlike anything you'd ever been to before, with all manner of noble lords and ladies attending from all parts of the land and beyond.  It was exciting, but you're unsure if it was necessarily 'better' than the village summer fetes you'd attended back in Stanley.  Usually though, you were kept apart from the Keeps occupants.  Joneth was concerned that the men of the Keep might be distracted from their duties by a young girl such as yourself. Perhaps his concerns were warranted, but it made for a fairly lonely existence.  You were permitted to visit home once a month, and you never declined the opportunity. 
-[[Continue|0003.001_prologue]]
-
-:: 0003.001_prologue {"position":"400,800","sizing":"100,100"}
-And so the scene is set.  So now begins the tale.
-
-[[Continue|0004.0001_Heal]]
-
-:: 0004.0001_Heal {"position":"400,925","sizing":"100,100"}
-Heal
-
-Pronunciation:/hi?l/
+//Pronunciation:/hi?l///
 
 verb
 [with object]
-cause (a wound, injury, or person) to become sound or healthy 
+cause (a wound, injury, or person) to become sound or healthy
 
-"Days I wandered, wounded and dying.  I had made my peace with the Goddesses, for I was certain my time in this plane was done.  And then he stumbled upon me - he called himself a healer, but he was more than that.  He was my saviour." ~ Lord Roe of Feldwesten
+"Days I wandered, wounded and dying.  I had made my peace with the Goddesses, for I was certain my time in this plane was done.  And then he stumbled upon me - he called himself a healer, but he was more than that.  He was my saviour." ~ Lord Roe of Feldtree
 
 "Whenever a healer of men cannot do good, he must be kept from doing harm." ~ Anon
 
-"Healers are naught but thieves.  It's in their interests that one should never recover from what ails thee." ~ Chieck Natwast, Ambassador of Kalt
+"Healers are naught but thieves.  It's in their interests that thou should never recover from what ails thee." ~ Chieck Natwast, Ambassador of Kalt
 
-[[Continue|0004.0002_prologue]]
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 2>>
+Prologue
 
-:: 0004.0002_prologue {"position":"400,1050","sizing":"100,100"}
-Blood.  It's so vibrant when it's first shed.  Red, intense, fluid.  Leave it, and it darkens, thickens, decays.  There's a lot of blood around you now.  More than you've ever seen.  It's dark, slick, and the smell is cloying in your nostrils.  A harsh rasp escapes from your dried, cracked lips, and you feel your eyes slide shut.  You've seen a lot of blood in your time.  Maybe too much.  
+Blood.  It's so vibrant when it's first shed.  Red, intense, fluid.  Leave it, and it darkens, thickens, decays.  There's a lot of blood around you now.  More than you've ever seen.  It's dark, slick, and the smell is cloying in your nostrils.  A harsh rasp escapes from your dried, cracked lips, and you feel your eyes slide shut.  You've seen a lot of blood in your time.  Maybe too much.
 
-"Nemi?"  Someone calls your name.  But you're so very tired.  You just want to go home.    
+"Nemi?"  Someone calls your name.  But you're so very tired.  You just want to go home.
 
-Home.  It doesn't really seem all that long since you left.  A jab of pain snakes up your left side, and you involuntarily cry out.  Will you ever see home again?  You open your eyes, but it's so dark here.  So far away from everything and everyone you were familiar with.  Your mind drifts.  To the beginning.  To what brought you here.  You just need to rest.  To close your eyes.  Your feel your eyes slip shut again, your breathing slowing.  You just need to stop thinking.  Feeling.
+Home.  It doesn't really seem all that long since you left.  A jab of pain snakes up your left side, and you involuntarily cry out.  Will you ever see home again?  You open your eyes, but it's so dark here.  So far away from everything and everyone you were familiar with.  Your mind drifts.  To the beginning.  To what brought you here.  You just need to rest.  To close your eyes.  You feel your eyes slip shut again, your breathing slowing.  You just need to stop thinking.  Feeling.
 
-[[Continue|0005.0001_c1]]
+[[Continue |0001.0002.00_training_choice][$PassageNo = 1]]
+<</switch>>
 
-:: 0005.0001_c1 {"position":"400,1175","sizing":"100,100"}
-<<set $lastnight to "none">>\
-<<set $sleepin to false>>\
-<<set $presentationmood to "none">>\
-<<set $presentationarrival to "none">>\
+:: 0001.0002.00_training_choice {"position":"200,125","sizing":"100,100"}
+<<if ndef $PassageNo>><<set $PassageNo = 1>><</if>><<switch $PassageNo>><<case 1>>
+Chapter 1
+//"So, have you made your decision Nemi?  It's hard, I know..."//
 
-Chapter 1:
+It's your father speaking to you.  He looks younger than you remember, his face still weather beaten as it's ever been, but his hair is still black as a night finch's wing.
+
+//"Remember dear, go with what feels right.  You have to be happy where you are."//
+
+Your mother speaks to you now, her pale blue eyes fixed on you with a kind gaze.  She looks younger too, her face not marked as prominently by the passage of time.
+
+You remember this.  You were fourteen, surrounded by your family, at home.  It was the day you decided where you would serve your healing apprenticeship.  It was a big decision, you'd thought on it for weeks.  But the time came when you had to decide.
+
+//Your oldest brother, Albin, sits next to you now and grins. "Mother's right, Nem.  You've got to go where you'll be happy.  The Keep isn't as near as Faye's, I know, but it's not the end of the world."//
+
+Albin is the level headed one.  Sensible, reliable.  The perfect son.  A good brother.  He was seventeen then.  A man considered, even then.  He has his own family now, and lives away from the village.  What he said was true though, you know that.  The Keep wasn't far, maybe a day's journey by horse.  But you remember thinking it'd mean leaving everything you know.  Family.  Friends.  The place where you grew up.
+
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 2>>
+//"If you go to the Keep you'll get to see the tournaments!  The jousts!  The combat!" exclaims Piotr, excitement shining in his hazel eyes.//
+
+You can't help but smile at the memory of your younger brother. Always so enthusiastic.  He never did anything by half.  He still doesn't.  His hair sticks up at funny angles, likes he'd been running through a hedge.  He probably had, you reflect fondly.
+
+You remember considering Piotr's words - knowing that like Albin, he was right.  If you chose to serve your healer's apprenticeship at the Keep under Master Joneth Graney, then no doubt you'd see all manner of things.  The lord of the Keep, Lord Graham, was renowned for his tournaments and his feasts.  You also remember considering that the type of healing you would learn there would likely be 'Crux' healing, that is - the dressing of wounds and the skills of setting bones and stitching of flesh.
+
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 3>>
+
+//"If Nemi goes to the keep, can we visit her?" Finally your youngest brother, Janek, speaks.//
+
+He was only...seven then, you think.  So innocent, so gentle.  He's never really changed - he's just taller, but still as sweet and kind as he ever was.
+
+//"Yes, at harvest perhaps," says your mother, stroking Janek's head.  He turns to you, brown eyes wide and glistening.//
+
+//"I'd miss thee," he says softly, hugging into your side.  "But if you stayed with Lady Faye, we could see you everyday!"//
+
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 4>>
+You smile at the mention of 'Lady' Faye.  It's been a long time since he's called her that.  Faye has no title, but you remember now, Janek insisted her on calling her that for a time.  He'd taken to calling her it ever since she brewed up a tonic to ease his itching when he'd been afflicted with the dreaded moxy rash - a particular illness that tends to strike in young children, causing their skin to redden and itch and cause no end of discomfort.
+
+And just as your other brothers had been right, so too, was Janek.  Faye lived only a few miles from your own home, and served as a healer for your village and the hamlets that surrounded it. You knew that many of your clients would be familiar faces.  But whilst work at the Keep would ensure plenty of gory injuries to treat, you knew working with Faye would mean a focus on the art of 'Nateura' healing  - in other words, the method of diagnosing illnesses and treating them with appropriate natural methods.
+
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 5>>
+//"Now Janek.  It's not about what you want, but what your sister wants."  Your mother smiles at you. "Though we would all miss her for certain if she were to go to the Keep."//
+
+//"But think of the allowance, Nem!  Ben Miller works at the Keep and he gets an allowance of 20 dragons a year!" Piotr chips in. //
+
+And that was another thing for you to consider.  Working at the Keep would mean a more generous allowance, whereas working for Faye would mean working for a more modest wage.
+
+//"Pipe down Piotr, this is your sister's decision," reminds your father quietly.He directs his gaze back toward you, and you remember meeting it firmly.//
+
+Your mind was made up.
+
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 6>>
+Still with your gaze on your father, you remember nodding and clearing your throat.
+//"I've decided to..."//
+[[...work with Faye.|0001.0002.01_village][$PassageNo = 1]]
+[[...work at the Keep with Master Graney.|0001.0002.02_keep][$PassageNo = 1]]
+<</switch>>
+
+:: 0001.0002.01_village {"position":"100,250","sizing":"100,100"}
+<<set $weakness to "Crux">>\
+<<set $background to "village">>\
+<<set $mentor to "Faye">>\
+<<set $mentorg to "she">>\
+<<set $mentorg1 to "her">>\
+//It's Janek who reacts first, letting out a small cry of joy, and hugging into your side even tighter than before.  Your mother and father both exchange happy glances and then join Janek in his embrace of you.//
+
+You remember your mother later confessing that they'd been afraid you'd work at the Keep.  They'd still have supported you, of course, but it would have been hard for them for you to be so far from home.
+
+//"Good choice Nem, Master Graney seems a bit of a stick in the mud," notes Albin, who scrubs the top of your head affectionately.//
+
+You recall that Piotr looked a touch disappointed.
+
+//"I wanted to come and visit you at the Keep," he murmurs despondently, folding his arms obstinately.//
+
+Stubborn old Piotr.  He always liked getting his own way.
+
+@@#fake_choice;\
+<<link "\"Well, perhaps one day you could work at the keep.  As a soldier?\" you suggest kindly.">>
+<<replace "#fake_choice" t8n>>\
+<<set $brotherfavour to "Piotr">>\
+<<set $otherbrother to "Janek">>\
+//<<last_choice>>//
+//Piotr's eyes light up as you speak and he nods his head vigorously.  He looks at your father, the question on his lips.  Your father laughs.//
+//"Well, stranger things have certainly happened," he concedes.//
+//Piotr lets out a whoop of delight, then joins the rest of your family and gives you a tight hug.//
+He never did become a soldier, of course, the week after that you remember him deciding he wanted to be a bard, the next a bandit.  He works with father now, as a hunter.  
+<<temp_text>>
+<</replace>>\
+<</link>>
+<<link"\"We don't always get what we want, Piotr\", you say briskly, though you still offer your brother a smile.">>
+<<replace "#fake_choice" t8n>>\
+<<set $brotherfavour to "Janek">>\
+<<set $otherbrother to "Piotr">>\
+//<<last_choice>>//
+//Piotr just shrugs despondantly, though he joins the rest of your family and gives you a grudging hug.//
+<<temp_text>>
+<</replace>>
+<</link>>
+@@
+
+<<widget "temp_text">>
+ You smile at the memory of your family's warmth and support, though you feel a little stab of sadness too.  You miss this.  Of course you're never far from them, but this was probably one of the happiest times in your life.  Not that you're not happy now, but it's a different kind of happiness, you think.
+[[Continue|0001.0002.02_focus]]
+<</widget>>
+
+
+
+
+:: 0001.0002.02_focus {"position":"200,375","sizing":"100,100"}
+<<set $daiahealing to true>>\
+<<set $daia to 50>>\
+<<if ndef $PassageNo>><<set $PassageNo = 1>><</if>><<switch $PassageNo>><<case 1>>
+//"Concentrate Nemi."//
+It's $mentor speaking to you now, giving you instruction, though your eyes are closed.
+//You focus, drawing all your thoughts to stillness.//
+//There.  You feel it.  A bloom of warmth in the base of your palms.  You feel a bead of sweat forming on your forehead.  Daia.//
+//"Focus, Nemi.  Focus."//
+//The warmth in your palms grows.  It spreads to your fingers and thumbs, making them tingle and burn.//
+It stung so much the first time, you remember now.  Even now, it still stings a little, but you've grown accustomed to it.
+//"It hurts," you mutter through gritted teeth.  Your mentor remains silent.  You continue to focus until it gets too much.  You gasp and open your eyes, your heart hammering in your chest.//
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 2>>
+//"Very good," says $mentor, smiling.  "I think we're making some real progress."//
+The 'progress' $mentor is talking about is in the art of 'Daia' healing - the ability to heal without reagents or instruments.  You'd only studied for a few weeks before it became apparent that you had the ability.
+//"You'll feel very tired after that I wager, soon it'll come to you as naturally as breathing," says $mentor with a smile.//
+$mentorg was right about you feeling tired, you felt as though you could sleep for a week.  And therein lies the catch.  Whilst the ability itself is rare enough, it can take a great toll on the healer.  That's why $mentor began training you so early - to meditate, to brew reviving tonics, and to control the flow of your spirit or 'Daia' to the point that you could use it as a method of healing.
+[[Continue|passage()][$PassageNo = $PassageNo + 1]]
+<<case 3>>
+//"You are truly blessed, Nemi, as it's not something many people can do.  But remember - never apply Daia healing if there is another way."//
+//You nod solemnly.//
+$mentor probably spent as much time showing you how to unlock your talent as ${mentorg} did in warning you about it. Still does. Every time a Daia healer users their talent, they lose a little of themselves.  It's even forbidden in the Northern lands, where faith in the Goddesses is strongest, and the very nature of a Daia healer is viewed as an affront to the divine.
+//"Now, come with me.  I've already brewed up some tonics which should help ease your fatigue.  They're not a substitute for proper rest, but they can come in very handy if you're in a situation were you might not get the opportunity to stop for a while."  //
+//You rise to your feet to follow $mentor when everything around you becomes muffled.  You can hear footsteps somewhere, and voices...//
+[[Continue |0001.0003.00_c1_intro][$PassageNo = 1]]
+<</switch>>
+
+:: 0001.0002.02_keep {"position":"300,250","sizing":"100,100"}
+<<set $weakness to "Nateura">>\
+<<set $background to "keep">>\
+<<set $mentor to "Joneth">>\
+<<set $mentorg to "he">>\
+<<set $mentorg1 to "him">>\
+//IIt's Piotr who reacts first, letting out a whoop of delight to your decision, and giving you a fierce hug.  Your mother and father both exchange a brief glance of resignation and then join Piotr in his embrace of you.//
+
+You remember your mother later telling you that her and your father were sick with worry those first few weeks.  But of course, they needn't have worried at all.
+
+//"Well, we'll be sad to see you go Nem, but I think you made the right choice," notes Albin, who scrubs the top of your head affectionately.//
+
+You recall that Janek looked a touch dismayed by your decision.
+
+//"Does that mean I'll not see you every day?" he asks despondently. His lower lip tremors as he asks, his eyes suddenly like saucers.//
+
+He always knew how to illicit your sympathy.
+
+@@#fake_choice;\
+<<link "\"No Janek, but I'll visit often, and you can visit me too, I swear,\" you promise kindly.">>
+<<replace "#fake_choice" t8n>>\
+<<set $brotherfavour to "Janek">>\
+<<set $otherbrother to "Piotr">>\
+<<set $PassageNo to 2>>
+//<<last_choice>>//
+//Janek's eyes light up as you speak and he nods his head vigorously.  He looks at your father, the question on his lips.  Your father laughs.//
+//"Yes, we'll visit as often as we can, and Nemi will come back here too," he confirms.//
+And of course, you still see them every other week.
+[i]Janek lets out a cry of joy, then joins the rest of your family and gives you a tight hug.[/i]
+<<temp_text>>
+<</replace>>
+<</link>>
+<<link"\"No, but you'll get used to it,\" you say briskly, though you still offer your brother a smile.">>
+<<replace "#fake_choice" t8n>>\
+<<set $brotherfavour to "Piotr">>\
+<<set $otherbrother to "Janek">>\
+<<set $PassageNo to 2>>
+//<<last_choice>>//
+//Janek just shrugs despondently, though he joins the rest of your family and gives you a grudging hug.//
+<<temp_text>>
+<</replace>>
+<</link>>
+@@
+
+<<widget "temp_text">>
+ You smile at the memory of your family's warmth and support, though you feel a little stab of sadness too.  You miss this.  Of course you're never far from them, but this was probably one of the happiest times in your life.  Not that you're not happy now, but it's a different kind of happiness, you think.
+[[Continue|0001.0002.02_focus]]
+<</widget>>
+
+:: 0001.0003.00_c1_intro {"position":"200,500","sizing":"100,100"}
 <<if $background == "village">>\
-You're woken by the sound of heavy footsteps trudging along outside your quarters.  You roll over in your bed, eyes slipping open and looking up at the snatch of sun rays creeping in through the shuttered window above your bed.  Those footsteps belong to the workers from the Lanson farm, brought in to help with the harvest.  They chat amongst themselves as they go to work, and you hear the odd line of conversation about the weather, Lanson, the upcoming Harvest festival.  Already, the smell of breakfast is drifting into your room, and you know it's time to get up.  The previous evening you'd...     
+<<set $nateura to $nateura + 50>>\
+<<set $crux to $crux + 20>>\
+You're woken suddenly by the sound of heavy footsteps trudging along outside your quarters.<<common_text>>
+You roll over in your bed, eyes slipping open and looking up at the snatch of sun rays creeping in through the shuttered window above your bed.  Those footsteps belong to the workers from the Lanson farm, brought in to help with the harvest.  They chat amongst themselves as they go to work, and you hear the odd line of conversation about the weather, the farm foreman, the upcoming Harvest festival.  Already, the smell of breakfast is drifting into your room, and you know it's time to get up.  The previous evening you'd...
 <<else>>\
-You're woken by the sound of heavy footfall striding past your meagerly outfitted quarters.  Light is filtering into the sparsely decorated room, which is really no more than a small space at the back of Joneth's quarters separated off by a curtain, through a small slit window in the back wall which is enough to tell you that morning has arrived.  The previous evening you'd...
+<<set $crux to $crux + 50>>\
+<<set $nateura to $nateura + 20>>\
+	You're woken suddenly by the sound of heavy footfall striding past your meagrely outfitted quarters.  <<common_text>>
+	Light is filtering into the sparsely decorated room, a small space at the back of Joneth's quarters, through a small slit window in the back wall. It's enough to tell you that morning has arrived.  The previous evening you'd...
 <</if>>\
 
-[[gone to bed nice and early.|0005.0002_bed]]
-[[stayed up late because you'd been studying.|0005.0003_study]]
+[[stayed up late because you'd been studying.|0001.0003.01_tired][$lastnight to "study"]]
 <<if $background == "village">>\
-[[stayed up late because you'd been playing cards at the local tavern.|0005.0004_cards]]
+[[stayed up late because you'd been playing cards at the local tavern.|0001.0003.01_tired][$lastnight to "cards"]]
+[[gone to bed nice and early after an evening meal with your family.|0001.0003.03_bed]]
 <<else>>\
-[[stayed up late because you'd been playing cards awith some of the other apprentices.|0005.0004_cards]]
+[[stayed up late because you'd been playing cards with some of the other apprentices.|0001.0003.01_tired][$lastnight to "cards"]]
+[[gone to bed nice and early after a listening to the stories of one of Keep's wounded veterans.|0001.0003.03_bed]]
 <</if>>
 
-:: 0005.0002_bed {"position":"400,1300","sizing":"100,100"}
+<<set $w_text to "You must've been dreaming.  The details are hazy now, but you remember being back at home, surrounded by your family.  It was about the day you decided where to serve your apprenticeship.   And you vaguely recall something about your Daia training with $mentor too.  It's been years since those events.  Not far off seven you think.  Odd.">>\
+
+
+:: 0001.0003.01_tired {"position":"100,625","sizing":"100,100"}
+<<switch $lastnight>>
+<<case "study">>
+<<set $presentationmood to "tired">>\
+<<set $intellect to $intellect + 2>>\
+<<set $nateura to $nateura + 10>>\
+<<set $crux to $crux + 10>>\
+Studious as ever, $mentor had recently acquired some new medical texts, and you couldn't resist staying up into the early hours to pore through them.  The consequence of your appetite for knowledge, however, has left you feeling less than refreshed for the day ahead.  Do you:
+<<case "cards">>
+<<set $presentationmood to "tired">>\
+<<set $social to $social + 1>>\
+<<if $background == "village">>\
+Overall, it had been a pleasant evening. Faye had even joined you for a game at one point, but your sociable nature made it hard to pass up the chance to take a break from work and let off some steam. Do you:
+<<else>>\
+Overall, it had been a pleasant evening. No doubt Joneth would frown upon you fraternising with the other students, but your sociable nature made it hard to pass up the chance to take a break from work and let off some steam. The consequence of your evenings' activities, however, have left you feeling less than refreshed for the day ahead.  Do you:
+<</if>>\
+<</switch>>\
+@@#fake_choice;
+<<link "Stay in bed for a bit longer, a few more minutes won't hurt.">>
+<<replace "#fake_choice" t8n>>\
+<<set $sleepin to true>>
+<<if $background == "village">>
+Those 'few minutes' turn into another half hour.  You begin to dream about...
+@@#fake_choice_2;
+<<link "...being lost in the forest.">>
+<<replace "#fake_choice_2" t8n>>\
+No matter where you turn, you can't find your way out.  You're aware of being out of breath, and as you run through a maze of twisty, tree lined corridors where everything looks alike, your foot catches on a root and you find yourself suddenly jerked awake.
+[[Continue|0001.0003.04_sleepin]]
+<</replace>>
+<</link>>
+<<link "...waiting for a stagecoach.">>
+<<replace "#fake_choice_2" t8n>>\
+You are sat at the station for Stanley for what seems like forever.  People come and go, some you recognise, others you don't.  Your eyes keep wandering to the station clock, but the hands never seem to turn.  Finally the coach arrives at the station, but as you board you stumble and you find yourself suddenly jerked awake.
+[[Continue|0001.0003.04_sleepin]]
+<</replace>>
+<</link>>
+<<link "...dancing at the Harvest Festival.">>
+<<replace "#fake_choice_2" t8n>>\
+You find yourself in the common Hall at Stanley, which is all decorated for the Harvest festival.  The hall is packed to the rafters with villagers, workers and even folk you've never seen.  You dance with your father, your brothers, and even some of the workers from the Lanson farm.  It's all very hectic, and you can feel you're beginning to feel short of breath.  Just as you begin to dance with a new partner, you misstep and you find yourself suddenly jerked awake.
+[[Continue|0001.0003.04_sleepin]]
+<</replace>>
+<</link>>
+@@
+<<else>>
+You're just about to drift off into the comfy confines of sleep again when you hear the sharp swish of fabric being pulled back.  Not a good sign.  You bolt upward, eyes open, to see your mentor standing at the edge of your quarters, his stern face a picture of dissatisfaction.
+
+"Ms. Macska," he says sharply.  "I trust you'll be joining me shortly?" You nod dumbly, and he pulls the curtain back shut.  Sighing, you drag yourself from your lumpy bed and hurriedly pull on your tunic and quickly wash before stepping into Joneth's quarters.  Of course, as you know, Joneth is already up and about, peering over his spectacles at a medical text as he prepares some manner of poultice.  When he hears you approach, he turns, his grey gaze fixing on you solemnly.
+[[Continue|0001.0003.04_sleepin]]
+<</if>>
+<</replace>>
+<</link>>
+<<link "Get up - enough sleep or not, you have a busy day ahead.">>
+<<replace "#fake_choice" t8n>>\
+<<if $background == "village">>Despite your late night, you rise from your bed.  Yawning, you dress and wash before leaving your modest little room and entering the healers quarters.  Your mistress is already up and about, humming a cheerful tune as she reads a medical text as she prepares some manner of healing tonic.  When she hears you approach, she turns, her green gaze fixing on you.  You see a twinkle in your mistress' eyes, and she smiles.
+[[Continue|0001.0004.00_presentation]]
+<<else>>
+You rise from your bed with a yawn, before washing and dressing for the day ahead.  You stifle another yawn as you step into Joneth's quarters proper, unsurprised to see your Master is already up and about, peering over his spectacles at a medical text as he prepares some manner of poultice.  When he hears you approach, he turns, his grey gaze fixing on you.  He scrutinises you for a moment, and gives a slight shake of his head..
+[[Continue|0001.0004.00_presentation]]
+<</if>>
+<</replace>>
+<</link>>
+@@
+
+
+
+:: 0001.0003.03_bed {"position":"300,625","sizing":"100,100"}
+<<set $intellect to $intellect + 1>>\
+<<set $social to $social + 2>>\
 <<set $presentationmood to "refreshed">>\
 As a consequence, you awaken feeling refreshed and ready to tackle the day with vigour.
-<<if $background == "village">>\
-[[Continue|0005.0005_fayepresents]]
-<<else>>\
-[[Continue|0005.0006_jonethpresents]]
-<</if>>
-
-:: 0005.0003_study {"position":"525,1300","sizing":"100,100"}
-<<set $lastnight to "study">>\
-<<set $presentationmood to "tired">>\
-<<set $intellect += 1>>\
-
-<<if $intellect >= 4>>\
-Studious as ever, your mentor had recently acquired some new medical texts, and you couldn't resist staying up into the early hours to pore through them.  
-<<else>>\
-Your mentor had recently acquired some new medical texts, and you'd felt it couldn't harm to brush up a little on your medical lore.
-<</if>>
-The consequence of your appetite for knowledge, however, has left you feeling less than refreshed for the day ahead.  Do you:
-<<if $background == "village">>\
-[[Stay in bed for a bit longer, a few more minutes won't hurt.|0005.0005_fayepresents][$sleepin to true]]
-[[Get up - enough sleep or not, you have a busy day ahead.|0005.0005_fayepresents]]
-<<else>>\
-[[Stay in bed for a bit longer, a few more minutes won't hurt.|0005.0006_jonethpresents][$sleepin to true]]
-[[Get up - enough sleep or not, you have a busy day ahead.|0005.0006_jonethpresents]]
-<</if>>
-
-:: 0005.0004_cards {"position":"275,1300","sizing":"100,100"}
-<<set $lastnight to "cards">>\
-<<set $presentationmood to "tired">>\
-<<set $social += 1>>\
-
-<<if $background == "village">>\
-Overall, it had been a pleasant evening. Faye had even joined you for a game at one point, but \
-<<if $social >= 4>>\
-your sociable nature made it hard to pass up the chance to take a break from work and let off some steam.
-<<else>>\
-although usually quite a shy individual, you had found yourself enjoying the company of your fellow villagers more than usual.
-<</if>>\
-<<else>>\
-Overall, it had been a pleasant evening. No doubt Joneth would frown upon you fraternising with the other students, but \
-<<if $social >= 4>>\
-your sociable nature made it hard to pass up the chance to take a break from work and let off some steam.
-<<else>>\
-although usually quite a shy individual, you jumped at the chance of company other than wounded soldiers or your fairly dour master.
-<</if>><</if>>\
-The consequence of your evenings' activities, however, have left you feeling less than refreshed for the day ahead.  Do you:
-<<if $background == "village">>\
-[[Stay in bed for a bit longer, a few more minutes won't hurt.|0005.0005_fayepresents][$sleepin to true]]
-[[Get up - enough sleep or not, you have a busy day ahead.|0005.0005_fayepresents]]
-<<else>>\
-[[Stay in bed for a bit longer, a few more minutes won't hurt.|0005.0006_jonethpresents][$sleepin to true]]
-[[Get up - enough sleep or not, you have a busy day ahead.|0005.0006_jonethpresents]]
-<</if>>
-
-:: 0005.0005.01_ok {"position":"300,1575","sizing":"100,100"}
-Faye fixes her gaze on yours and smiles, shaking her head.  "Oh, it's nothing for you to worry about, love," she says softly.  "Of course, you're a sweet thing to ask."  
-[["Faye, if there's anything the matter...you can tell me."|0005.0005.02_press]]
-[["Well, if you're sure."|0005.0005.03_leave]]
-
-:: 0005.0005.02_press {"position":"425,1700","sizing":"100,100"}
-It's not like Faye to hold anything back.  If it concerns her, then it concerns you. Faye looks at you again and smiles as she finishes her breakfast.  "You know, this village is lucky to have you Nemi.  I'm lucky to have you."  
-[[Continue|0005.0005.04_fayepresents2]]
-
-:: 0005.0005.03_leave {"position":"300,1700","sizing":"100,100"}
-Though you don't like to leave it, if Faye wants to keep this to herself, then it's not your business to interfere. Faye looks at you again and smiles as she finishes her breakfast.  "You know, this village is lucky to have you Nemi.  I'm lucky to have you."  
-[[Continue|0005.0005.04_fayepresents2]]
-
-:: 0005.0005.04_fayepresents2 {"position":"175,1800","sizing":"100,100"}
-Faye Presents 2
-
-:: 0005.0005.05_compliment {"position":"175,1625","sizing":"100,100"}
-"That's kind of you to say Nemi, now eat up, before it goes cold."  You do as your mentor instructs, and in no time you're both finished.  Faye stands and takes your empty plate and hers before you can say anything else.
-[[Continue|0005.0005.04_fayepresents2]]
-
-:: 0005.0005_fayepresents {"position":"300,1450","sizing":"100,100"}
-<<if $presentationmood == "refreshed">>
-Humming to yourself, you dress and wash before leaving your modest little room and entering the healers quarters.  Your mistress is already up and about, humming a cheerful tune as she reads a medical text as she prepares some manner of healing tonic.  When she hears you approach, she turns, her green gaze fixing on you.  You see a twinkle in your mistress' eyes, and she smiles.
-
-"Good morning Nemi," she greets in a cheerful tone.  You greet her back in kind.  She waves you over to the large wooden table in the middle of the room, where a platter of fried eggs, buttered bread and sizzling sausages lies.  "Here, have some breakfast before it cools," she offers.  You thank your mentor and sit down at the table, as you have for so long now, and begin to eat.  Faye joins you, though you can't help but notice she looks a touch saddened as you eat. 
-[["Is everything okay?" you ask, a little concerned|0005.0005.01_ok]]
-[["Thanks for breakfast, Faye, it's delicious."  You figure a compliment might cheer your mentor up.  |0005.0005.05_compliment]]
-<</if>>\
-<<if $sleepin>>\
-You slept in. 
-<</if>>\
-<<if $presentationmood == "tired">>\
-You are tired.
-<</if>>\
-
-:: 0005.0006.01 {"position":"425,1575","sizing":"100,100"}
-<<if $fakechoice == 1>>\
-Joneth seems to snap out of his reverie and laughs, although nervously you think.  "Of course, of course.  Don't mind me.  I was just thinking..." he pauses, finishing the rest of the broth in his bowl. "You're probably the best student I've ever worked with.  I just wanted you to know that."  It's almost a shock to hear Joneth say something like that.  He's a good man, but he's not exactly the type to give out such praise.
-[["Joneth...now I'm really worried."|0005.006.02][$fakechoice = 1]]
-[["Thank you, Joneth.  That's really kind of you to say."|0005.006.02][$fakechoice = 2]]
-
-<<else>>\
-"That's kind of you to say Nemi, now eat up, before it goes cold."  You do as your mentor instructs, and in no time you're both finished.  Joneth stands and takes your empty bowl and his before you can say anything else.
-[[Continue|0005.0006.03_jonethpresents2]]
-<</if>>\
-
-:: 0005.0006.03_jonethpresents2 {"position":"600,1700","sizing":"100,100"}
-Joneth Presents 2
-
-:: 0005.0006.04 {"position":"600,1450","sizing":"100,100"}
-<<if $fakechoice == 1>>\
-A little honesty never hurt, at least as far as the healer was concerned.  Joneth makes a little snorting noise.  
-<<if $lastnight == "study">>\
-"Given that you were up studying, I suppose I can forgive you," he notes with a wink.  [[Continue|0005.0006.03_jonethpresents2]]
-<</if>>\
- <<if $lastnight == "cards">>\
-"So, was the sleep deprivation worth it then?  Did you win anything at your card game last night?"
-[["Card game?  I...think you've mistaken me for someone else..." you lie, blushing furiously.|0005.0006.05][$fakechoice = 1]]
-[[Cough uncomfortably.  You should have known better than thinking you could pull the wool over Joneth's eyes.  "Oh well...not really."|0005.0006.05][$fakechoice = 2]]
-[[Grin.  "Of course, I've got my poker face is down to a tee.  I learnt that from you."|0005.0006.05][$fakechoice = 3]]
-<</if>>\
-
-<<else>>\
- Joneth might be a dour old sod, but he's not entirely without a sense of humour.  Your mentor smiles a touch.  It's a gesture that softens his usually stern features, and he shakes his head.
- "Ah Nemi...it's really not going to be the same around here without you," he begins.  You note that his voice sounds a touch remorseful. 
- <<if $lastnight == "study">>\
-"Given that you were up studying, I suppose I can forgive you," he notes with a wink.  [[Continue|0005.0006.03_jonethpresents2]]
-<</if>>\
- <<if $lastnight == "cards">>\
-"Although," he pauses, delivering you a classically 'Joneth' stare, "I'll not miss having to keep tabs on your whereabouts.  Did you win anything at your card game last night?"
-[["Card game?  I...think you've mistaken me for someone else..." you lie, blushing furiously.|0005.0006.05][$fakechoice = 1]]
-[[Cough uncomfortably.  You should have known better than thinking you could pull the wool over Joneth's eyes.  "Oh well...not really."|0005.0006.05][$fakechoice = 2]]
-[[Grin.  "Of course, I've got my poker face is down to a tee.  I learnt that from you."|0005.0006.05][$fakechoice = 3]]
-<</if>>\
-<</if>>\
- 
-
-
-:: 0005.0006.05 {"position":"725,1450","sizing":"100,100"}
-<<if $fakechoice == 1>>\
-Joneth raises his eyebrows at you quizzically.  "Really Nemi?  How many other healing apprentices' do you see around here?"  He shakes his head with a tut, and you decide to keep quiet.  Really, after 7 years, you might have thought you could fooled Joneth, but he's a touch more switched on than you often give him credit for.
-<</if>>\
-<<if $fakechoice == 2>>\
-Joneth smiles ever so slightly, though he speaks with a note of disapproval in his voice. "Well gamblers never prosper Nemi.  Don't forget that."	
-<</if>>\
-<<if $fakechoice == 3>>\
-It's probably pushing it, but after working under Joneth for the best part of seven years, you've learnt to tell when he's in the mood for japes and when he isn't.  Joneth shakes his head.  "Hmm," he murmurs, turning back to the task at hand.  
-<</if>>\
-[[Continue|0005.0006.03_jonethpresents2]]
-
-:: 0005.0006_jonethpresents {"position":"475,1450","sizing":"100,100"}
-<<if $presentationmood == "refreshed">>
+<switch $background>>\
+<<case "village">>\
+Humming to yourself, you dress and wash before leaving your modest little room and entering the healers' quarters.  Your mistress is already up and about, humming a cheerful tune as she reads a medical text as she prepares some manner of healing tonic.  When she hears you approach, she turns, her green gaze fixing on you.  You see a twinkle in your mistress' eyes, and she smiles. "Good morning Nemi," she greets in a cheerful tone.  You greet her back in kind.
+<<case "keep">>\
 Humming to yourself, you dress and wash before stepping into Joneth's quarters.  Your master is already up and about, peering over his spectacles at a medical text as he prepares some manner of healing tonic.  When he hears you approach, he turns, his grey gaze fixing on you.  You see a twinkle in the old man's eyes, and he smiles.
+"Good morning Nemi," he greets in a cheerful tone.  You greet him back in kind.  He waves you over to the large wooden table in the middle of the room, and picks up a wooden bowl, filling in with some delicious smelling broth.
+<</switch>>
+[[Continue|0001.0004.00_presentation]]
 
-"Good morning Nemi," he greets in a cheerful tone.  You greet him back in kind.  He waves you over to the large wooden table in the middle of the room, and picks up a wooden bowl, filling in with some delicious smelling broth.  "Here, have some breakfast before it cools," he instructs.  You thank your mentor and sit down at the table, as you have for so long now, and begin to eat.  If Joneth had not become a healer, you're quite certain he would have found employment as a cook.  Joneth joins you, though you can't help but notice he looks a touch saddened.  
-[["Is everything okay?" you ask, a little concerned|0005.0006.01][$fakechoice = 1]]
-[["Thanks for breakfast, Joneth, it's delicious."  You figure a compliment might cheer your mentor up.  |0005.0006.01][$fakechoice = 2]]
-<<else>>\
-<<if $sleepin>>\
-You're just about to drift off into the comfy confines of sleep again when you hear the sharp swish of fabric being pulled back.  Not a good sign.  You bolt upward, eyes open, to see your mentor standing at the edge of your quarters, his stern face a picture of dissatisfaction. "Ms. Macska," he says sharply.  "I trust you'll be joining me shortly?" You nod dumbly, and he pulls the curtain back shut.  Sighing, you drag yourself from your lumpy bed and hurriedly pull on your tunic and quickly wash before stepping into Joneth's quarters.  Of course, as you know, Joneth is already up and about, peering over his spectacles at a medical text as he prepares some manner of healing tonic.  When he hears you approach, he turns, his grey gaze fixing on you solemnly.    
+:: 0001.0003.04_sleepin {"position":"100,750","sizing":"100,100"}
+<<if $background == "village">>It takes you a few moments to realise you were dreaming, but your promptly rise, realising that it's well past the time you normally get up. Feeling a touch sheepish, you hurriedly dress and wash before leaving your modest little room and entering the healers' quarters. Your mistress is, of course, already up and about, humming a cheerful tune as she reads a medical text as she prepares some manner of healing tonic. When she hears you approach, she turns, her green gaze fixing on you. You see a twinkle in your mistress' eyes, and she smiles.
+@@#fake_choice;
+<<link "\"I'm sorry, I just closed my eyes for a few minutes...\", you begin.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+Faye shakes her head and waves her hand.  "Please, <<switch $lastnight>><<case "study">>I noticed your lamp burning late last night.  I think you're entitled to a little more rest."<<case "cards">> don't worry your head, love.  It's not as though we are rushed off our feet, is it?  Besides, it was nice to see you enjoying yourself last night, love."<</switch>>
+[[Continue|0001.0004.00_presentation]] 
+<</replace>>
+<</link>>
+<<link "\"I'm not asleep, but that doesn't mean I'm awake yet either...\"">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+Faye raises an eyebrow and chuckles at your weary state.
+<<switch $lastnight>><<case "study">>"I noticed your lamp burning late last night.  I think you're entitled to a little more rest."<<case "cards">>"You'll wake up soon enough. Besides, it was nice to see you enjoying yourself last night, love."
+<</switch>>
+[[Continue|0001.0004.00_presentation]] 
+<</replace>>
+<</link>>
+@@
 <<else>>
-You hurriedly pull on your tunic and quickly wash before stepping into Joneth's quarters.  Your master is already up and about, peering over his spectacles at a medical text as he prepares some manner of healing tonic.  When he hears you approach, he turns, his grey gaze fixing on you solemnly. 
-<</if>>\
-"And what time do you call this?" he enquires.  You're honestly not sure.
-[["Sorry Joneth, I was up late and...well I didn't realise the time."|0005.0006.04][$fakechoice = 1]]
-[["An ungodly time is what I call this!" you exclaim with a dramatic air.|0005.0006.04][$fakechoice = 2]]
-<</if>>\
+"And what time do you call this?" he inquires.  You're honestly not sure.
+@@#fake_choice;
+<<link "\"Sorry Joneth, I was up late and...well I didn't realise the time.\"  A little honesty never hurt, at least as far as the healer was concerned.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+Joneth makes a little snorting noise. <<switch $lastnight>><<case "study">>"Given that you were up studying, I suppose I can forgive you," he notes with a wink.
+[[Continue|0001.0004.00_presentation]] <<case "cards">> So, was the sleep deprivation worth it then?  Did you win anything at your card game last night?" <<temp_text>><</switch>>
+<</replace>>
+<</link>>
+<<link "\"An ungodly time is what I call this!\" you exclaim with a dramatic air.  Joneth might be a dour old sod, but he's not entirely without a sense of humour.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+Your mentor smiles a touch.  It's a gesture that softens his usually stern features, and he shakes his head.
+"Ah Nemi...it's really not going to be the same around here without you," he begins.  You note that his voice sounds a touch remorseful.
+<<switch $lastnight>><<case "study">>"Given that you were up studying, I suppose I can forgive you," he notes with a wink.
+[[Continue|0001.0004.00_presentation]] <<case "cards">>"Although," he pauses, delivering you a classically 'Joneth' stare, "I'll not miss having to keep tabs on your whereabouts.  Did you win anything at your card game last night?"
+<<temp_text>>
+<</switch>>
+<</replace>>
+<</link>>
+@@
+<</if>>
+
+<<widget "temp_text">>
+@@#fake_choice_1;
+<<link "\"Card game?  I...think you've mistaken me for someone else...\" you lie, blushing furiously.">>
+<<replace "#fake_choice_1" t8n>>\
+"Card game?  I...think you've mistaken me for someone else..." you lie, blushing furiously.
+Joneth raises his eyebrows at you quizzically.
+"Really Nemi?  How many other healing apprentices' do you see around here?"  He shakes his head with a tut, and you decide to keep quiet.  Really, after 7 years, you might have thought you could fool Joneth, but he's a touch more switched on than you often give him credit for.
+[[Continue|0001.0004.00_presentation]] 
+<</replace>>
+<</link>>
+<<link "Cough uncomfortably. You should have known better than thinking you could pull the wool over Joneth's eyes. \"Oh well...not really.\"">>
+<<replace "#fake_choice_1" t8n>>\
+Cough uncomfortably. You should have known better than thinking you could pull the wool over Joneth's eyes. "Oh well...not really."
+Joneth smiles ever so slightly, though he speaks with a note of disapproval in his voice.
+"Well gamblers never prosper Nemi.  Don't forget that."
+[[Continue|0001.0004.00_presentation]] 
+<</replace>>
+<</link>>
+<<link "Grin.  \"Of course, I've got my poker face is down to a tee.  I learnt that from you.\"  It's probably pushing it, but after working under Joneth for the best part of seven years, you've learnt to tell when he's in the mood for japes and when he isn't.">>
+<<replace "#fake_choice_1" t8n>>\
+Grin.  "Of course, I've got my poker face is down to a tee.  I learnt that from you."  It's probably pushing it, but after working under Joneth for the best part of seven years, you've learnt to tell when he's in the mood for japes and when he isn't."
+Joneth shakes his head.
+"Hmm," he murmurs, turning back to the task at hand.
+[[Continue|0001.0004.00_presentation]] 
+<</replace>>
+<</link>>
+@@
+<</widget>>
+
+
+:: 0001.0004.00_presentation {"position":"250,750","sizing":"100,100"}
+<<switch $background>>\
+<<case "village">>\
+She waves you over to the large wooden table in the middle of the room, where a platter of fried eggs, buttered bread and sizzling sausages lies.  It smells delicious.  "Here, have some breakfast before it cools," she offers.  You thank your mentor and sit down at the table, as you have for so long now, and begin to eat.  Faye joins you, though you can't help but notice she looks a touch saddened as you eat.
+<<case "keep">>\
+"Here, have some breakfast before it cools," he instructs.  You thank your mentor and sit down at the table, as you have for so long now, and begin to eat.  If Joneth had not become a healer, you're quite certain he would have found employment as a cook.  Joneth joins you, though you can't help but notice he looks a touch saddened as he takes his seat.
+<</switch>>
+@@#fake_choice;
+<<link "\"Is everything okay?\" you ask, a little concerned.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+<<switch $background>>\
+<<case "village">>\
+Faye fixes her gaze on yours and smiles, shaking her head.  "Oh, it's nothing for you to worry about, love," she says softly.  "Of course, you're a sweet thing to ask."
+	@@#fake_choice_f;
+	<<link "\"Faye, if there's anything the matter...you can tell me.\"  It's not like Faye to hold anything back.  If it concerns her, then it concerns you.">>
+	<<replace "#fake_choice_f" t8n>>\
+	"Faye, if there's anything the matter...you can tell me."  It's not like Faye to hold anything back.  If it concerns her, then it concerns you.
+	Faye looks at you again and smiles as she finishes her breakfast.  "You know, this village is lucky to have you Nemi.  I'm lucky to have you."
+	You shrug in awkward acknowledgment..Faye is acting a little odd today you think.
+	[[Continue|0001.0004.01_p2]]
+	<</replace>>
+	<</link>>
+	<<link "\"Well, if you're sure.\" Though you don't like to leave it, if Faye wants to keep this to herself, then it's not your business to interfere.">>
+	<<replace "#fake_choice_f" t8n>>\
+	"Well, if you're sure." Though you don't like to leave it, if Faye wants to keep this to herself, then it's not your business to interfere.
+	Faye looks at you again and smiles as she finishes her breakfast.  "You know, this village is lucky to have you Nemi.  I'm lucky to have you."
+	You shrug in awkward acknowledgment..Faye is acting a little odd today you think.
+	[[Continue|0001.0004.01_p2]]
+	<</replace>>
+	<</link>>
+	@@
+<<case "keep">>\
+Joneth seems to snap out of his reverie and laughs, a touch nervously you think.
+"Of course, of course.  Don't mind me.  I was just thinking..." he pauses, finishing the rest of the broth in his bowl. "You're probably the best student I've ever worked with.  I just wanted you to know that."  It's almost a shock to hear Joneth say something like that.  He's a good man, but he's not exactly the type to give out such praise.
+@@#fake_choice_j;
+	<<link "\"Joneth...now I'm really worried.\"  Even Joneth must realise he's acting a little odd.  But it can't help to try and lighten the tone of things.">>
+	<<replace "#fake_choice_j" t8n>>\
+	"Joneth...now I'm really worried."  Even Joneth must realise he's acting a little odd.  But it can't help to try and lighten the tone of things.
+	Joneth looks at you and smiles.
+	"What, I can't give credit where it's due?  Am I really that bad?" he asks with a wink.  Before you can say any more, he takes your empty bowl and his and moves across the room to put them in the sink.
+	[[Continue|0001.0004.01_p2]]
+	<</replace>>
+	<</link>>
+	<<link "\"Thank you, Joneth.  That's really kind of you to say.\"  It's true, though you're still a little surprised at his admission.">>
+	<<replace "#fake_choice_j" t8n>>\
+	"Thank you, Joneth.  That's really kind of you to say."  It's true, though you're still a little surprised at his admission.
+	"Not kind Nemi.  True.  You're a talented healer, certainly more so than I was at your age."  Before you can say any more, he takes your empty bowl and his and moves across the room to put them in the sink.
+	[[Continue|0001.0004.01_p2]]
+	<</replace>>
+	<</link>>
+	@@
+<</switch>>
+<</replace>>
+<</link>>
+<<link "\"Thanks for breakfast, it's delicious.\"  You feel a compliment might cheer your mentor up.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+<<switch $background>>\
+<<case "village">>\
+"That's kind of you to say Nemi, now eat up, before it goes cold."  You do as your mentor instructs, and in no time you're both finished.  Faye stands and takes your empty plate and hers before you can say anything else.
+[[Continue|0001.0004.01_p2]]
+<<case "keep">>\
+"That's kind of you to say Nemi, now eat up, before it goes cold."  You do as your mentor instructs, and in no time you're both finished.  Joneth stands and takes your empty bowl and his before you can say anything else and moves across the room to put them in the sink.
+[[Continue|0001.0004.01_p2]]
+<</switch>>
+<</replace>>
+<</link>>
+@@
+
+:: 0001.0004.01_p2 {"position":"250,875","sizing":"100,100"}
+<<switch $background>><<case "village">>\
+"You know, today is quite an important day."  Faye doesn't look at you as she speaks, instead taking the empty plates to the sink.  Usually, that would be your duty, but you've noticed she seems distracted this morning.
+<<case "keep">>\
+A moment later, you watch as he bustles across the room to where he keeps all manner of vials and pots of medical ingredients and reagents.  He selects a small glass container which contains what looks like mandrake root, and returns to the table.  You're about to ask what he needs you to do when he interrupts.
+"You know, today is quite an important day."  Joneth doesn't look at you as he speaks, instead weighing out some reagents on his brass scales.
+<</switch>>\
+"In what way?" you ask, honestly puzzled.
+Wiping $mentorg1 damp hands on a cloth, $mentor reaches down and takes something from beneath the table.  With $mentorg1 back to you, your view is obscured, but you lean forward curiously.  $mentor turns and you see an old, leather-bound tome in $mentorg1 hands.  You've seen this particular tome many times, always on $mentor's desk, the healer adding meticulous notes to it at the end of a day's work.  <<print $mentorg.toUpperFirst()>> looks at you with a solemn glance, and when $mentorg speaks, you could swear you hear $mentorg1 voice catch in $mentorg1 throat.
+"You know what this is," $mentorg begins.
+@@#fake_choice;
+<<link "\"The book of healing...\" you can hardly hide the awe in your voice.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+All healers own such a tome, imparting their knowledge and methods onto the pages and passing it down, healer to healer, for generations.  Not all apprentices receive the book from their mentor, so to be given such an item is a massive honour.
+"Nemi, I've thought long and hard on this...but I have little doubt that you're one of the most talented healers I have ever overseen."  <<print $mentorg.toUpperFirst()>> steps forward and presses the book into your hands.
+[[Continue|0001.0004.02_p3]]
+<</replace>>
+<</link>>
+<<link "\"I think...it's a...book?\" Your lips twitch into a smirk as you finish, although you can't help but feel butterflies in your stomach.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+All healers own such a tome, imparting their knowledge and methods onto the pages and passing it down, healer to healer, for generations.  Not all apprentices receive the book from their mentor, so to be given such an item is a massive honour.
+<<switch $background>><<case "village">>\
+ Faye arches one eyebrow and rolls her eyes with a smirk on her lips.
+"Yes - the book of healing, Nemi.  I've thought long and hard on this...and despite your somewhat irreverent nature, I have little doubt that you're one of the most talented healers I have ever overseen."  She steps forward and presses the book into your hands.
+[[Continue|0001.0004.02_p3]]
+<<case "keep">>\
+ Joneth arches one eyebrow and looks at you with a look of perfect disdain.
+"Don't make me reconsider my decision, Nemi.  I've thought long and hard on this...and despite your penchant for bouts of tomfoolery, I have little doubt that you're one of the most talented healers I have ever overseen."  He steps forward and presses the book into your hands.
+[[Continue|0001.0004.02_p3]]
+<</switch>>
+<</replace>>
+<</link>>
+@@
 
 
 
+:: 0001.0004.02_p3 {"position":"250,1000","sizing":"100,100"}
+"Now, I've no doubt you understand the significance of this gesture.  You've studied and worked under me for nigh on seven years.  You're not without your rough edges of course..." $mentorg pauses, and smiles, "but you're intelligent, focused and good at what you do.  I've no doubt you will continue to improve as a healer, but it's time you made your own way in the profession.  I've nothing more to teach you."  <<print $mentorg.toUpperFirst()>>finishes and steps forward, kissing you lightly on each cheek and drawing you into a fierce embrace.  You swallow nervously, your fingers curling around the book in your palms.
+@@#fake_choice;
+<<link `"\"Thank you " + $mentor + ",  I...I don't know what to say.\"You really don't.  You feel almost as choked up as " + $mentor + " appears to be."` >>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+<<switch $background>><<case "village">>\
+Faye just nods, and you get the feeling that she's finding this as difficult as you.
+"Now, your family already know about my decision, so they'll be expecting you home.  Take the day to gather your belongings, and say your goodbyes.  You're not far from home, so just take your time.  There's no rush," she says kindly.
+<<case "keep">>\
+At this point, your mentor draws you into a comforting embrace.
+"Now, your family already know about my decision, so they'll be expecting you home.  Take the day to gather your belongings, and say your goodbyes.  It's quick I know, but there's little use in beating around the bush is there?"
+You have little choice but to agree.<</switch>>
+<<temp_text>>
+<</replace>>
+<</link>>
+<<link "\"Well, it's about time.\"  Your tongue is firmly in your cheek as you say it, if only to hide the emotion you're suddenly feeling.">>
+<<replace "#fake_choice" t8n>>\
+<<last_choice>>
+<<switch $background>><<case "village">>\
+Faye chuckles.
+"You always could lighten the mood Nemi.  I'll miss that," she murmurs. "Now, your family already know about my decision, so they'll be expecting you home.  Take the day to gather your belongings, and say your goodbyes.  You're not far from home, so just take your time.  There's no rush," she says kindly.
+<<case  "keep">>\
+Joneth shakes his head at you, smiling.
+"It's nice that you agree with me on something for once," he chides.  "Now, your family already know about my decision, so they'll be expecting you home.  Take the day to gather your belongings, and say your goodbyes.  It's quick I know, but there's little use in beating around the bush is there?"
+You have little choice but to agree.<</switch>>
+<<temp_text>>
+<</replace>>
+<</link>>
+@@
 
-:: 0005.006.02 {"position":"550,1575","sizing":"100,100"}
-<<if $fakechoice == 1>>\
-Even Joneth must realise he's acting a little odd.  But it can't help to try and lighten the tone of things.  Joneth looks at you and smiles.  "What, I can't give credit where it's due?  Am I really that bad?" he asks with a wink.  He takes your empty bowl and his before you can say anything else.  
-<<else>>\
- It's true, though you're still a little surprised at his admission.  "Not kind Nemi.  True.  You're a talented healer, certainly moreso than I was at your age."  Before you can say any more, he takes your empty bowl and his and moves across the room to put them in the sink.  
-<</if>>\
-[[Continue|0005.0006.03_jonethpresents2]]
+<<widget "temp_text">>
+The rest of the day passes in a blur.  You pack your meagre belongings, and say your farewells.  It's a strange experience, bittersweet even.  It's a day you've been working towards ever since you left your own home, but now that's it's arrived you can't help but feel a mixture of both excitement and trepidation about what lies ahead for you.
 
-:: StoryInit {"position":"125,0","sizing":"100,100"}
+Finally, you stand before $mentor, ready to leave the place that has been your home for almost seven years.  You've grown up here.  It's hard to resolve all that you've been through in a single day.
+<<switch $background>><<case "village>>\
+[[Continue|0001.0005.01_fayesummary]]
+<<case "keep">>\
+[[Continue|0001.0005.01_jonethsummary]]
+<</switch>>
+<</widget>>
+
+:: 0001.0005.01_fayesummary {"position":"325,1125","sizing":"100,100"}
+
+
+:: 0001.0005.01_jonethsummary {"position":"175,1125","sizing":"100,100"}
+
+
+:: StoryInit {"position":"0,0","sizing":"100,100"}
+<--Healing skills-->
+<<set $weakness  to "Unknown">>
+<<set $specialization  to "Unknown">>
+<<set $daiahealing  to false>>
+<<set $nateura to 25>>
+<<set $crux to 25>>
+<<set $daia to 0>>
+
+<--Character stats-->
 <<set $intellect to 0>>
 <<set $social to 0>>
-<<set $combat to 0>>
-<<set $wealth to 0>>
-<<set $background = "Unknown">>
-<<set $weakness  = "Unknown">>>
-<<set $specialization  = "Unknown">>>
-<<set $daiahealing  = "Unknown">>>
-<<set $daia to 0>>
+<<set $combat to 5>>
+<<set $compassion to 0>>
+<<set $pragmatism to 0>>
+<<set $exuberance to 0>>
+<<set $shyness to 0>>
+<<set $fatigue to 0>>
+<<set $suspicion to 0>>
+<<set $disposition to "Unknown">>
+
+<--Relationships-->
+<<set $othorelationship to 0>>
+<<set $junorelationship to 0>>
+<<set $robsonrelationship to 0>>
+<<set $markusrelationship to 0>>
+
+<--Random elements-->
 <<set $random to 0>>
-<<set $fakechoice to 0>>
-<<set $latestLink to []>>
+<<set $count to 0>>
+<<set $checkcount to "Unknown">>
+<<set $check1 to false>>
+<<set $check2 to false>>
+<<set $check3 to false>>
+<<set $check4 to false>>
+<<set $check5 to false>>
+<<set $check6 to false>>
+<<set $check7 to false>>
+<<set $check8 to false>>
+<<set $topic1 to false>>
+<<set $topic2 to false>>
+<<set $texttoken to "Unknown">>
+
+<--Widget variables-->
+<<set $w_text to "Unknown">>
+<<set $linkHistory to []>>
+
+<--Dice - variables for playing dice-->
+<<set $dice1 to 0>>
+<<set $dice2 to 0>>
+<<set $dice3 to 0>>
+<<set $dice4 to 0>>
+<<set $dice5 to 0>>
+<<set $dice6 to 0>>
+<<set $dicetotal to 0>>
+<<set $highscore to 0>>
+<<set $nemiscore to 0>>
+<<set $robsonscore to 0>>
+<<set $markusscore to 0>>
+<<set $nemiwin to 0>>
+<<set $markuswin to 0>>
+<<set $robsonwin to 0>>
+<<set $dicescore to "Uknown">>
+<<set $winner to "Uknown">>
+<<set $lastwinner to "Uknown">>
+
+<-Startup->
+<<set $mentor to "Unknown">>
+<<set $mentorg to "Unknown">>
+<<set $mentorg1 to "Unknown">>
+<<set $background to "Unknown">>
+<<set $lastnight to "Unknown">>
+<<set $sleepin to false>>
+<<set $presentationmood to "Unknown">>
+<<set $presentationarrival to "Unknown">>
+<<set $othodance to false>>
+<<set $joinotho to "Unknown">>
+<<set $brotherfavour to "Unknown">>
+<<set $otherbrother to "Unknown">>
+<<set $brotherworship to 0>>
+<<set $protest to "Unknown">>
+<<set $elricassault to false>>
+
+<-Day 1->
+<<set $nemihorses to false>>
+<<set $nemideer to false>>
+<<set $nemicook to false>>
+<<set $junodaia to false>>
+<<set $nemidoze to false>>
+<<set $othoorigin to false>>
+
+<-Day 2->
+<<set $partyjoined to false>>
+<<set $robsonhealmethod to "Uknown">>
+<<set $warned to "None">>
+<<set $junotied to false>>
+<<set $junothroat to false>>
+<<set $lifetaker to false>>
+<<set $shortcut to false>>
+<<set $banditcount to 6>>
+
+:: Widgets [widget] {"position":"0,100","sizing":"100,100"}
+<<widget "common_text">>\
+<<done>><<replace "#common_text">>\
+$w_text
+<</replace>><</done>><span id="common_text"></span>\
+<</widget>>\
+\
+<<widget "last_choice">>\
+<<done>><<replace "#choice">>\
+<<print $linkHistory[$linkHistory.length-1]>>
+<</replace>><</done>><span id="choice"></span>\
+<</widget>>\
